@@ -1,6 +1,7 @@
 package com.kwakmunsu.jwt.config;
 
 
+import com.kwakmunsu.jwt.jwt.JWTUtil;
 import com.kwakmunsu.jwt.jwt.LoginFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,7 @@ public class SecurityConfig {
 
     //AuthenticationManager가 인자로 받을 AuthenticationConfiguraion 객체 생성자 주입
     private final AuthenticationConfiguration authenticationConfiguration;
+    private final JWTUtil jwtUtil; // LoginFilter -> 의존성 주입
     // 암호화
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
@@ -59,9 +61,15 @@ public class SecurityConfig {
 
         // filter 등록
         http
-                .addFilterAt(new LoginFilter(authenticationManager(authenticationConfiguration)), UsernamePasswordAuthenticationFilter.class);
-        // 세션 설정 stateless로 설정해야됨.
+                .addFilterAt(new LoginFilter(
+                                authenticationManager(authenticationConfiguration),
+                                jwtUtil
+                        ), UsernamePasswordAuthenticationFilter.class);
+
+
+
         // JWT를 통한 인증/인가를 위해서 세션을 STATELESS 상태로 설정하는 것이 중요하다.
+        // 세션 설정 stateless로 설정해야됨
         http
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
