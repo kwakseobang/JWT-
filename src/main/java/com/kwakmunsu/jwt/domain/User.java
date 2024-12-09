@@ -30,7 +30,7 @@ public class User {
         this.username = username;
         this.password = password;
         // role이 null이면 기본 값으로 Role.USER 설정
-        this.role = role != null ? role : Role.USER;
+        this.role = role != null ? role : Role.ADMIN;
     }
 
 }

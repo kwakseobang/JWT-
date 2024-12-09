@@ -1,10 +1,12 @@
 package com.kwakmunsu.jwt.jwt;
 
 
+import com.kwakmunsu.jwt.domain.Role;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import java.nio.charset.StandardCharsets;
 import java.util.Date;
+import java.util.Stack;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Value; // lombok.Value 가 아님.

@@ -1,6 +1,7 @@
 package com.kwakmunsu.jwt.config;
 
 
+import com.kwakmunsu.jwt.jwt.JWTFilter;
 import com.kwakmunsu.jwt.jwt.JWTUtil;
 import com.kwakmunsu.jwt.jwt.LoginFilter;
 import lombok.RequiredArgsConstructor;
@@ -59,7 +60,9 @@ public class SecurityConfig {
                         .requestMatchers("/admin").hasRole("ADMIN")
                         .anyRequest().authenticated());
 
-        // filter 등록
+        // JWT filter 등록
+        http.addFilterBefore(new JWTFilter(jwtUtil), LoginFilter.class);
+        // Loginfilter 등록
         http
                 .addFilterAt(new LoginFilter(
                                 authenticationManager(authenticationConfiguration),
